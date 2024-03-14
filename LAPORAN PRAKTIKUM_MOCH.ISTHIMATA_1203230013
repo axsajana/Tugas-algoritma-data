@@ -1,0 +1,61 @@
+//Mochammad isthimata
+//1203230013
+//tugas algoritma dan struktur data
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_KARAKTER 500
+#define MIN_LENGTH 2000
+
+void lessThanRequired(int *lengthOfText) {
+    printf("Panjang teks Anda kurang dari yang ditentukan, perbarui teks Anda\n");
+    *lengthOfText = MIN_LENGTH;
+}
+
+void equalThanRequired() {
+    printf("Terima kasih, Panjang teks Anda sudah benar\n");
+}
+
+void moreThanRequired(int *lengthOfText) {
+    printf("Teks Anda terlalu panjang, mohon kurangi teksnya\n");
+    *lengthOfText = MIN_LENGTH;
+}
+
+int checkLengthRequirement(char *text) {
+    int length = strlen(text);
+    if (length < MIN_LENGTH)
+        return 0;
+    else if (length == MIN_LENGTH)
+        return 1;
+    else
+        return 2;
+}
+
+int main() {//Fungsi utama
+    int panjang_text, selectOption;
+    FILE *fptr = NULL;
+    char text[MAX_KARAKTER];
+
+    fptr = fopen("file.txt", "r");
+
+    if (fptr == NULL) {
+        printf("tidak di temuka!");
+        exit(1);
+    }
+
+    fgets(text, MAX_KARAKTER, fptr);
+
+    fclose(fptr);
+
+    selectOption = checkLengthRequirement(text);
+
+    void (*functionPtrs[3])(int *) = {lessThanRequired, equalThanRequired, moreThanRequired};
+    functionPtrs[selectOption](&panjang_text); 
+
+    printf("panjang sebelmunya %d\n", strlen(text)); 
+    printf("panjang teks telah di perbaharui menjadi %d\n", panjang_text);
+    return 0;
+}
